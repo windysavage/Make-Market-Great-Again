@@ -1,0 +1,24 @@
+target-version = "py312"
+include = ["**/*.py"]
+exclude = [
+  "__pycache__", 
+  ".venv", 
+  "build", 
+  "dist",
+  "data"
+]
+
+lint.select = [
+  "E",  # pycodestyle errors
+  "F",  # pyflakes
+  "I",  # isort (import sort)
+  "UP", # pyupgrade
+  "B",  # bugbear
+  "C90", # mccabe (複雜度檢查)
+  "ANN"
+]
+
+lint.ignore = []
+line-length = 88
+
+format.quote-style = "single"
