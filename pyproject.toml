@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "make-market-great-again"
+version = "0.1.0"
+description = ""
+authors = ["windysavage"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+ipykernel = "^6.29.5"
+truthbrush = { git = "https://github.com/stanfordio/truthbrush.git" }
+python-dotenv = "^1.1.1"
+pydantic-settings = "^2.10.1"
+ruff = "^0.12.2"
+attrs = "^25.3.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
