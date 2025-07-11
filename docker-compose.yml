@@ -1,0 +1,37 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: api
+    volumes:
+      - ./:/app
+    ports:
+      - "8888:8888"
+    command: python src/app.py
+
+  dagster-webserver:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: dagster-webserver
+    environment:
+      DAGSTER_HOME: /app/dagster_home
+    volumes:
+      - ./data/dagster_home:/app/dagster_home
+    ports:
+      - "3000:3000"
+    command: dagster-webserver -h 0.0.0.0 -p 3000
+    depends_on:
+      - dagster-daemon
+
+  dagster-daemon:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: dagster-daemon
+    environment:
+      DAGSTER_HOME: /app/dagster_home
+    volumes:
+      - ./data/dagster_home:/app/dagster_home
+    command: dagster-daemon run

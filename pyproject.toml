@@ -7,14 +7,23 @@ readme = "README.md"
 package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.12,<=3.13.3"
 ipykernel = "^6.29.5"
 truthbrush = { git = "https://github.com/stanfordio/truthbrush.git" }
 python-dotenv = "^1.1.1"
 pydantic-settings = "^2.10.1"
 ruff = "^0.12.2"
 attrs = "^25.3.0"
+fastapi = "^0.116.0"
+jinja2 = "^3.1.6"
+python-multipart = "^0.0.20"
+uvicorn = "^0.35.0"
+dagster = "^1.11.2"
+dagster-webserver = "^1.11.2"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.dagster]
+module_name = "dagster_project.repository"
