@@ -1,0 +1,3 @@
+load_from:
+  - python_module: dagster_project.repository
+    attribute: "defs"
