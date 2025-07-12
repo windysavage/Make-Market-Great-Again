@@ -21,6 +21,8 @@ services:
       DAGSTER_HOME: /app/dagster_home
     volumes:
       - ./data/dagster_home:/app/dagster_home
+      - ./dagster/dagster_project:/app/dagster_project
+      - ./src:/app/src
     ports:
       - "3000:3000"
     command: dagster-webserver -h 0.0.0.0 -p 3000
@@ -36,4 +38,6 @@ services:
       DAGSTER_HOME: /app/dagster_home
     volumes:
       - ./data/dagster_home:/app/dagster_home
+      - ./dagster/dagster_project:/app/dagster_project
+      - ./src:/app/src
     command: dagster-daemon run

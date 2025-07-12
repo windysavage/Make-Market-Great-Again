@@ -12,6 +12,7 @@ from starlette.responses import Response
 
 from database.base import create_db_and_tables, get_session
 from database.models import Subscriber
+from utils import trigger_dagster_job
 
 
 @asynccontextmanager
@@ -53,6 +54,9 @@ def subscribe(
     session.add(sub)
     session.commit()
     session.refresh(sub)
+
+    trigger_dagster_job(job_name='subscription_welcome_job')
+
     return SubscribeResponse(message='Subscribed.', email=email, is_success=True)
 
 
