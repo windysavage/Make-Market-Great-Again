@@ -2,13 +2,13 @@ import inspect
 from datetime import datetime, timedelta
 
 import attr
-import tools as tools_module
 from langchain.chat_models import init_chat_model
 from langchain_core.tools import BaseTool
-from prompt import post_analysis_prompt
 
+import src.agent.tools as tools_module
+from src.agent.prompt import post_analysis_prompt
+from src.agent.utils import llm_debug
 from src.crawler import Post, pull_user_post
-from utils import llm_debug
 
 
 @attr.s()
