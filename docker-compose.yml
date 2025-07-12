@@ -8,6 +8,8 @@ services:
       - ./:/app
     ports:
       - "8888:8888"
+    env_file:
+      - .env
     command: python src/app.py
 
   dagster-webserver:
