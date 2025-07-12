@@ -1,8 +1,8 @@
 from collections.abc import Callable
 from functools import wraps
 
-from langchain.callbacks import get_openai_callback
 from langchain.globals import set_debug
+from langchain_community.callbacks import get_openai_callback
 
 
 def llm_debug(
