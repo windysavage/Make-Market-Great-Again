@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import attr
 import tools as tools_module
 from langchain.chat_models import init_chat_model
+from langchain_core.tools import BaseTool
 from prompt import post_analysis_prompt
 
 from src.crawler import Post, pull_user_post
@@ -21,15 +22,15 @@ class Agent:
     def __attrs_post_init__(self) -> None:
         self.model = init_chat_model(
             model=self.model_name, model_provider=self.model_provider
-        ).bind_tools(self.tool_list)
+        ).bind_tools([tool for tool in self.tool_map.values()])
 
     @property
-    def tool_list(self) -> list[callable]:
-        return [
-            fn
-            for _, fn in inspect.getmembers(tools_module, inspect.isfunction)
-            if getattr(fn, '__tool__', False)
-        ]
+    def tool_map(self) -> dict[str, BaseTool]:
+        return {
+            obj.name: obj
+            for _, obj in inspect.getmembers(tools_module)
+            if isinstance(obj, BaseTool)
+        }
 
     def crawl(self) -> list[Post]:
         return pull_user_post(
@@ -39,17 +40,34 @@ class Agent:
 
     def generate_prompt(self, posts: list[Post]) -> str:
         post_texts = '\n\n'.join([f'- {post.content}' for post in posts])
+        tool_descriptions = '\n'.join(
+            f'- {tool_name}: {tool.description}'
+            for tool_name, tool in self.tool_map.items()
+        )
+
         return post_analysis_prompt.format_messages(
-            username=self.target_username, post_texts=post_texts
+            username=self.target_username,
+            tool_descriptions=tool_descriptions,
+            post_texts=post_texts,
         )
 
     @llm_debug(enabled=False)
     def work(self) -> None:
         posts = self.crawl()
         prompt = self.generate_prompt(posts)
-        return self.model.invoke(input=prompt)
+        result = self.model.invoke(input=prompt)
+
+        for tool_call in result.tool_calls:
+            tool_name = tool_call['name']
+            args = tool_call['args']
+
+            if tool_name in self.tool_map:
+                tool_output = self.tool_map[tool_name].invoke(args)
+                print(f'✅ Called tool `{tool_name}` with result: {tool_output}')
+            else:
+                print(f'⚠️ Tool `{tool_name}` not found.')
 
 
 if __name__ == '__main__':
-    agent = Agent(target_username='realDonaldTrump', n_hours=1)
+    agent = Agent(target_username='realDonaldTrump', n_hours=5)
     agent.work()

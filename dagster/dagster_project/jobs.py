@@ -1,4 +1,5 @@
 from dagster import job, op
+from src.agent.agent import Agent
 from src.utils import send_email
 
 
@@ -18,6 +19,17 @@ def send_subscription_welcome_email() -> None:
     )
 
 
+@op
+def watch_trump_post_impact_op() -> None:
+    agent = Agent(target_username='realDonaldTrump', n_hours=1)
+    agent.work()
+
+
 @job
 def subscription_welcome_job() -> None:
     send_subscription_welcome_email()
+
+
+@job
+def trump_market_watcher_job() -> None:
+    watch_trump_post_impact_op()
