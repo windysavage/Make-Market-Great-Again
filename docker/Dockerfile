@@ -25,7 +25,8 @@ WORKDIR /app
 COPY --from=builder /usr/local /usr/local
 COPY --from=builder /app /app
 
-COPY dagster/dagster_home /app/dagster_home
 COPY dagster/dagster_project /app/dagster_project
+
+ENV PYTHONPATH=/app
 
 CMD ["bash"]

@@ -21,6 +21,9 @@ uvicorn = "^0.35.0"
 dagster = "^1.11.2"
 dagster-webserver = "^1.11.2"
 sqlmodel = "^0.0.24"
+langchain = "^0.3.26"
+langchain-openai = "^0.3.27"
+langchain-community = "^0.3.27"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

@@ -3,8 +3,8 @@ from datetime import datetime
 import attr
 from truthbrush.api import Api as TruthApi
 
-from settings import get_settings
-from utils import ensure_datetime_type
+from src.settings import get_settings
+from src.utils import ensure_datetime_type
 
 settings = get_settings()
 truth_api = TruthApi(
