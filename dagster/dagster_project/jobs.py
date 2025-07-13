@@ -4,7 +4,7 @@ from src.utils import send_email
 
 
 @op
-def send_subscription_welcome_email() -> None:
+def send_welcome_email_op() -> None:
     return send_email(
         to_email='water92001@gmail.com',
         subject='訂閱成功：追蹤川普發文對股市的潛在影響',
@@ -20,16 +20,16 @@ def send_subscription_welcome_email() -> None:
 
 
 @op
-def watch_trump_post_impact_op() -> None:
+def watch_trump_post_op() -> None:
     agent = Agent(target_username='realDonaldTrump', n_hours=1)
     agent.work()
 
 
 @job
-def subscription_welcome_job() -> None:
-    send_subscription_welcome_email()
+def send_welcome_email_job() -> None:
+    send_welcome_email_op()
 
 
 @job
-def trump_market_watcher_job() -> None:
-    watch_trump_post_impact_op()
+def watch_trump_post_job() -> None:
+    watch_trump_post_op()
