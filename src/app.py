@@ -1,3 +1,4 @@
+import logging
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
@@ -13,6 +14,14 @@ from starlette.responses import Response
 from database.base import create_db_and_tables, get_session
 from database.models import Subscriber
 from utils import trigger_dagster_job
+
+logging.basicConfig(
+    level=logging.INFO,
+    format=(
+        '[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] - %(message)s'
+    ),
+    datefmt='%Y-%m-%d %H:%M:%S',
+)
 
 
 @asynccontextmanager

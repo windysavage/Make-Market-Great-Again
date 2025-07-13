@@ -1,4 +1,5 @@
 import inspect
+import logging
 from datetime import datetime, timedelta
 
 import attr
@@ -9,6 +10,8 @@ import src.agent.tools as tools_module
 from src.agent.prompt import post_analysis_prompt
 from src.agent.utils import llm_debug
 from src.crawler import Post, pull_user_post
+
+logger = logging.getLogger(__name__)
 
 
 @attr.s()
@@ -63,9 +66,9 @@ class Agent:
 
             if tool_name in self.tool_map:
                 tool_output = self.tool_map[tool_name].invoke(args)
-                print(f'✅ Called tool `{tool_name}` with result: {tool_output}')
+                logger.info(f'✅ Called tool `{tool_name}` with result: {tool_output}')
             else:
-                print(f'⚠️ Tool `{tool_name}` not found.')
+                logger.info(f'⚠️ Tool `{tool_name}` not found.')
 
 
 if __name__ == '__main__':
