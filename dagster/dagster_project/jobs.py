@@ -1,12 +1,13 @@
-from dagster import job, op
+from dagster import OpExecutionContext, job, op
 from src.agent.agent import Agent
 from src.utils import send_email
 
 
-@op
-def send_welcome_email_op() -> None:
+@op(config_schema={'to_email': str})
+def send_welcome_email_op(context: OpExecutionContext) -> None:
+    to_email = context.op_config['to_email']
     return send_email(
-        to_email='water92001@gmail.com',
+        to_emails=[to_email],
         subject='訂閱成功：追蹤川普發文對股市的潛在影響',
         body=(
             '感謝你訂閱 Make Market Great Again！🇺🇸📈\n\n'

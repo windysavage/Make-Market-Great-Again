@@ -54,7 +54,7 @@ class Agent:
             post_texts=post_texts,
         )
 
-    @llm_debug(enabled=False)
+    @llm_debug(enabled=True)
     def work(self) -> None:
         posts = self.crawl()
         prompt = self.generate_prompt(posts)

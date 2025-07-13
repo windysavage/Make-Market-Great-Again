@@ -27,17 +27,28 @@ def ensure_datetime_type(value: str | datetime) -> datetime:
     return dt
 
 
-def send_email(to_email: str, subject: str, body: str) -> None:
+def send_email(to_emails: list[str], subject: str, body: str) -> None:
+    """
+    Sends a plain-text email to multiple recipients using BCC to protect privacy.
+
+    Args:
+        to_emails (List[str]): List of recipient email addresses (BCC).
+        subject (str): Email subject line.
+        body (str): Email body in plain text.
+
+    Raises:
+        smtplib.SMTPException: If there is an error sending the message.
+    """
     msg = MIMEMultipart()
     msg['From'] = settings.FROM_EMAIL
-    msg['To'] = to_email
+    msg['Bcc'] = ', '.join(to_emails)
     msg['Subject'] = subject
     msg.attach(MIMEText(body, 'plain'))
 
     with smtplib.SMTP(settings.SMTP_HOST, settings.SMTP_PORT) as server:
         server.starttls()
         server.login(settings.SMTP_USERNAME, settings.SMTP_PASSWORD)
-        server.send_message(msg)
+        server.send_message(msg, from_addr=settings.FROM_EMAIL, to_addrs=to_emails)
 
 
 def trigger_dagster_job(job_name: str, run_config: dict | None = None) -> dict:
