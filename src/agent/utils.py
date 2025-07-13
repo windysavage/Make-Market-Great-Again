@@ -1,8 +1,11 @@
+import logging
 from collections.abc import Callable
 from functools import wraps
 
 from langchain.globals import set_debug
 from langchain_community.callbacks import get_openai_callback
+
+logger = logging.getLogger(__name__)
 
 
 def llm_debug(
@@ -21,11 +24,11 @@ def llm_debug(
             set_debug(True)
             with get_openai_callback() as cb:
                 result = func(*args, **kwargs)
-                print('\n🔍 [LLM Debug]')
-                print(f'  📦 Total tokens:     {cb.total_tokens}')
-                print(f'  🧠 Prompt tokens:    {cb.prompt_tokens}')
-                print(f'  📝 Completion tokens:{cb.completion_tokens}')
-                print(f'  💰 Total cost:       ${cb.total_cost:.5f}')
+                logger.info('\n🔍 [LLM Debug]')
+                logger.info(f'  📦 Total tokens:     {cb.total_tokens}')
+                logger.info(f'  🧠 Prompt tokens:    {cb.prompt_tokens}')
+                logger.info(f'  📝 Completion tokens:{cb.completion_tokens}')
+                logger.info(f'  💰 Total cost:       ${cb.total_cost:.5f}')
                 return result
 
         return wrapper

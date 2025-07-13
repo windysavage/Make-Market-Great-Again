@@ -1,13 +1,17 @@
 import inspect
+import logging
 from datetime import datetime, timedelta
 
 import attr
-import tools as tools_module
 from langchain.chat_models import init_chat_model
-from prompt import post_analysis_prompt
+from langchain_core.tools import BaseTool
 
+import src.agent.tools as tools_module
+from src.agent.prompt import post_analysis_prompt
+from src.agent.utils import llm_debug
 from src.crawler import Post, pull_user_post
-from utils import llm_debug
+
+logger = logging.getLogger(__name__)
 
 
 @attr.s()
@@ -21,15 +25,15 @@ class Agent:
     def __attrs_post_init__(self) -> None:
         self.model = init_chat_model(
             model=self.model_name, model_provider=self.model_provider
-        ).bind_tools(self.tool_list)
+        ).bind_tools([tool for tool in self.tool_map.values()])
 
     @property
-    def tool_list(self) -> list[callable]:
-        return [
-            fn
-            for _, fn in inspect.getmembers(tools_module, inspect.isfunction)
-            if getattr(fn, '__tool__', False)
-        ]
+    def tool_map(self) -> dict[str, BaseTool]:
+        return {
+            obj.name: obj
+            for _, obj in inspect.getmembers(tools_module)
+            if isinstance(obj, BaseTool)
+        }
 
     def crawl(self) -> list[Post]:
         return pull_user_post(
@@ -39,17 +43,34 @@ class Agent:
 
     def generate_prompt(self, posts: list[Post]) -> str:
         post_texts = '\n\n'.join([f'- {post.content}' for post in posts])
-        return post_analysis_prompt.format_messages(
-            username=self.target_username, post_texts=post_texts
+        tool_descriptions = '\n'.join(
+            f'- {tool_name}: {tool.description}'
+            for tool_name, tool in self.tool_map.items()
         )
 
-    @llm_debug(enabled=False)
+        return post_analysis_prompt.format_messages(
+            username=self.target_username,
+            tool_descriptions=tool_descriptions,
+            post_texts=post_texts,
+        )
+
+    @llm_debug(enabled=True)
     def work(self) -> None:
         posts = self.crawl()
         prompt = self.generate_prompt(posts)
-        return self.model.invoke(input=prompt)
+        result = self.model.invoke(input=prompt)
+
+        for tool_call in result.tool_calls:
+            tool_name = tool_call['name']
+            args = tool_call['args']
+
+            if tool_name in self.tool_map:
+                tool_output = self.tool_map[tool_name].invoke(args)
+                logger.info(f'✅ Called tool `{tool_name}` with result: {tool_output}')
+            else:
+                logger.info(f'⚠️ Tool `{tool_name}` not found.')
 
 
 if __name__ == '__main__':
-    agent = Agent(target_username='realDonaldTrump', n_hours=1)
+    agent = Agent(target_username='realDonaldTrump', n_hours=5)
     agent.work()

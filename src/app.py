@@ -1,17 +1,27 @@
+import logging
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 
-from fastapi import Depends, FastAPI, Form
+from fastapi import FastAPI, Form
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
-from sqlmodel import Session, select
+from sqlmodel import select
 from starlette.requests import Request as StarletteRequest
 from starlette.responses import Response
 
 from database.base import create_db_and_tables, get_session
 from database.models import Subscriber
+from utils import trigger_dagster_job
+
+logging.basicConfig(
+    level=logging.INFO,
+    format=(
+        '[%(asctime)s] %(levelname)s [%(name)s.%(funcName)s:%(lineno)d] - %(message)s'
+    ),
+    datefmt='%Y-%m-%d %H:%M:%S',
+)
 
 
 @asynccontextmanager
@@ -39,20 +49,26 @@ async def index(request: StarletteRequest) -> Response:
 
 
 @app.post('/subscribe')
-def subscribe(
-    email: str = Form(...),
-    session: Session = Depends(get_session),  # noqa: B008
-) -> SubscribeResponse:
-    existing = session.exec(select(Subscriber).where(Subscriber.email == email)).first()
-    if existing:
-        return SubscribeResponse(
-            message='Email already subscribed.', email=email, is_success=False
-        )
+def subscribe(email: str = Form(...)) -> SubscribeResponse:
+    with get_session() as session:
+        existing = session.exec(
+            select(Subscriber).where(Subscriber.email == email)
+        ).first()
+        if existing:
+            return SubscribeResponse(
+                message='Email already subscribed.', email=email, is_success=False
+            )
 
-    sub = Subscriber(email=email)
-    session.add(sub)
-    session.commit()
-    session.refresh(sub)
+        sub = Subscriber(email=email)
+        session.add(sub)
+        session.commit()
+        session.refresh(sub)
+
+    trigger_dagster_job(
+        job_name='send_welcome_email_job',
+        run_config={'ops': {'send_welcome_email_op': {'config': {'to_email': email}}}},
+    )
+
     return SubscribeResponse(message='Subscribed.', email=email, is_success=True)
 
 
