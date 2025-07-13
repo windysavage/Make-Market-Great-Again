@@ -49,15 +49,13 @@ async def index(request: StarletteRequest) -> Response:
 
 
 @app.post('/subscribe')
-def subscribe(email: str = Form(...)) -> SubscribeResponse:
+def subscribe(request: StarletteRequest, email: str = Form(...)) -> SubscribeResponse:
     with get_session() as session:
         existing = session.exec(
             select(Subscriber).where(Subscriber.email == email)
         ).first()
         if existing:
-            return SubscribeResponse(
-                message='Email already subscribed.', email=email, is_success=False
-            )
+            return templates.TemplateResponse('subscribed.html', {'request': request})
 
         sub = Subscriber(email=email)
         session.add(sub)
@@ -69,7 +67,7 @@ def subscribe(email: str = Form(...)) -> SubscribeResponse:
         run_config={'ops': {'send_welcome_email_op': {'config': {'to_email': email}}}},
     )
 
-    return SubscribeResponse(message='Subscribed.', email=email, is_success=True)
+    return templates.TemplateResponse('success.html', {'request': request})
 
 
 if __name__ == '__main__':
