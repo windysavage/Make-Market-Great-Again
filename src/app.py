@@ -64,7 +64,7 @@ def subscribe(
     session.commit()
     session.refresh(sub)
 
-    trigger_dagster_job(job_name='subscription_welcome_job')
+    trigger_dagster_job(job_name='send_welcome_email_job')
 
     return SubscribeResponse(message='Subscribed.', email=email, is_success=True)
 
