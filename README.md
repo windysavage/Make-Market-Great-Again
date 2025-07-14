@@ -4,12 +4,12 @@ AI-powered monitoring system that tracks Trump's Truth Social posts and alerts s
 
 ## Overview
 
-When Trump posts something that could move markets, our LLM agent analyzes the content and automatically sends email alerts to subscribers. Perfect for getting ahead of market volatility caused by unexpected political statements.
+When Trump posts something that could move markets, our AI agent analyzes the content and automatically sends email alerts to subscribers. Perfect for getting ahead of market volatility caused by unexpected political statements.
 
 ## Features
 
 - 🔍 **Real-time Truth Social monitoring** via Dagster scheduled jobs  
-- 🤖 **AI analysis** of potential market impact using LLM agents  
+- 🤖 **AI analysis** of potential market impact using AI agent
 - 📧 **Instant email alerts** to subscribers
 - 🚀 **FastAPI** for subscription management  
 
@@ -23,11 +23,11 @@ cd Make-Market-Great-Again
 cp .env.template .env
 vim .env  # or use any editor
 
-# Start all services
-make up
-
 # Build images
 make build
+
+# Start all services
+make up
 
 # Access API container shell
 make shell
@@ -41,7 +41,7 @@ make shell
 ## How It Works
 
 1. **Monitor**: Dagster continuously watches Trump's Truth Social posts  
-2. **Analyze**: LLM agent evaluates potential market impact  
+2. **Analyze**: AI agent evaluates potential market impact  
 3. **Alert**: Automatic email notifications sent to subscribers when significant impact detected  
 4. **Invest**: Make informed decisions before the market reacts  
 
