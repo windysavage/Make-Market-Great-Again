@@ -4,7 +4,7 @@ AI-powered monitoring system that tracks Trump's Truth Social posts and alerts s
 
 ## Overview
 
-When Trump posts something that could move markets, our AI agent analyzes the content and automatically sends email alerts to subscribers. Perfect for getting ahead of market volatility caused by unexpected political statements.
+When Trump posts something that might shake the markets, our AI agent decides whether the content is impactful enough — and if so, sends instant email alerts to subscribers. Stay ahead of political-driven market moves with smart, real-time analysis.
 
 ## How It Works
 
