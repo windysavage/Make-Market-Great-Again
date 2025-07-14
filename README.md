@@ -8,9 +8,9 @@ When Trump posts something that could move markets, our AI agent analyzes the co
 
 ## How It Works
 
-👀 **Monitor**: Dagster continuously watches Trump's Truth Social posts  
-🧠 **Analyze**: AI agent evaluates potential market impact  
-📬 **Alert**: Automatic email notifications sent to subscribers when significant impact detected
+- 👀 **Monitor**: Dagster continuously watches Trump's Truth Social posts  
+- 🧠 **Analyze**: AI agent evaluates potential market impact  
+- 📬 **Alert**: Automatic email notifications sent to subscribers when significant impact detected
 
 ## Quick Start
 
