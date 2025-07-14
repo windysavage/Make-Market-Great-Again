@@ -8,10 +8,9 @@ When Trump posts something that could move markets, our AI agent analyzes the co
 
 ## Features
 
-- 🔍 **Real-time Truth Social monitoring** via Dagster scheduled jobs  
+- 🔍 **Truth Social monitoring** via Dagster scheduled jobs  
 - 🤖 **AI analysis** of potential market impact using AI agent
 - 📧 **Instant email alerts** to subscribers
-- 🚀 **FastAPI** for subscription management  
 
 ## Quick Start
 
@@ -35,7 +34,7 @@ make shell
 
 ## Services
 
-- **FastAPI**: `http://localhost:8000` – Subscription management  
+- **FastAPI**: `http://localhost:8888` – Subscription management  
 - **Dagster**: `http://localhost:3000` – Job monitoring  
 
 ## How It Works
@@ -43,7 +42,6 @@ make shell
 1. **Monitor**: Dagster continuously watches Trump's Truth Social posts  
 2. **Analyze**: AI agent evaluates potential market impact  
 3. **Alert**: Automatic email notifications sent to subscribers when significant impact detected  
-4. **Invest**: Make informed decisions before the market reacts  
 
 ## Use Case
 
@@ -51,7 +49,7 @@ Stay ahead of market volatility by getting early warnings when Trump's posts mig
 
 ## LLM Provider Support
 
-Currently, the system supports the following LLM providers for market impact analysis:
+Currently, the system supports the following LLM providers as an AI agent:
 
 - [x] OpenAI (`gpt-4`, `gpt-3.5-turbo`, etc.)
 - [ ] Local models (planned)
