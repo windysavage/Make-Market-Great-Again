@@ -8,13 +8,20 @@ def send_welcome_email_op(context: OpExecutionContext) -> None:
     to_email = context.op_config['to_email']
     return send_email(
         to_emails=[to_email],
-        subject='訂閱成功：追蹤川普發文對股市的潛在影響',
+        subject='📬 訂閱成功｜來自 Make Market Great Again 的即時市場監控服務',
         body=(
+            'Hi，\n\n'
             '感謝你訂閱 Make Market Great Again！🇺🇸📈\n\n'
-            '我們會自動追蹤川普在 Truth Social 上的貼文，並透過 AI 模型即時分析其對特定股票（例如科技股、能源股等）的潛在短期影響。\n\n'  # noqa: E501
-            '當我們偵測到具影響力的發文時，你將會收到通知。\n\n'
-            '希望這項服務能幫助你更快掌握市場情緒，做出更有利的投資決策。\n\n'
-            '如有任何回饋或建議，歡迎回信與我們聯繫！\n\n'
+            '從現在起，我們的 AI Agent 將自動追蹤川普在 Truth Social 上的最新發言，'
+            '並即時分析這些言論對美股（例如科技股、能源股、軍工股等）的潛在影響。\n\n'
+            '📡 一旦偵測到具有市場影響力的發文，你將第一時間收到通知，'
+            '協助你即時掌握投資風險與機會。\n\n'
+            '這項服務的目標是協助你：\n'
+            '- 快速掌握市場情緒\n'
+            '- 預判潛在股價波動\n'
+            '- 做出更有策略的投資決策\n\n'
+            '如果你有任何回饋或想法，歡迎隨時回信與我們分享。\n\n'
+            '祝你投資順利，\n'
             '— Make Market Great Again 團隊'
         ),
     )
