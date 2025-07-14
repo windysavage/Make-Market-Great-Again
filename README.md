@@ -6,11 +6,11 @@ AI-powered monitoring system that tracks Trump's Truth Social posts and alerts s
 
 When Trump posts something that could move markets, our AI agent analyzes the content and automatically sends email alerts to subscribers. Perfect for getting ahead of market volatility caused by unexpected political statements.
 
-## Features
+## How It Works
 
-- 🔍 **Truth Social monitoring** via Dagster scheduled jobs  
-- 🤖 **AI analysis** of potential market impact using AI agent
-- 📧 **Instant email alerts** to subscribers
+👀 **Monitor**: Dagster continuously watches Trump's Truth Social posts  
+🧠 **Analyze**: AI agent evaluates potential market impact  
+📬 **Alert**: Automatic email notifications sent to subscribers when significant impact detected
 
 ## Quick Start
 
@@ -35,13 +35,7 @@ make shell
 ## Services
 
 - **FastAPI**: `http://localhost:8888` – Subscription management  
-- **Dagster**: `http://localhost:3000` – Job monitoring  
-
-## How It Works
-
-1. **Monitor**: Dagster continuously watches Trump's Truth Social posts  
-2. **Analyze**: AI agent evaluates potential market impact  
-3. **Alert**: Automatic email notifications sent to subscribers when significant impact detected  
+- **Dagster**: `http://localhost:3000` – Job monitoring
 
 ## Use Case
 
