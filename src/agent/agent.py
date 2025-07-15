@@ -57,6 +57,11 @@ class Agent:
     @llm_debug(enabled=True)
     def work(self) -> None:
         posts = self.crawl()
+
+        if not posts:
+            logger.info('There is no new post to be analyzed.')
+            return
+
         prompt = self.generate_prompt(posts)
         result = self.model.invoke(input=prompt)
 
