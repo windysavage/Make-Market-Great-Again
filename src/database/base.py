@@ -3,7 +3,7 @@ from contextlib import contextmanager
 
 from sqlmodel import Session, SQLModel, create_engine
 
-DATABASE_URL = 'sqlite:////app/data/subscribers.db'
+DATABASE_URL = 'mysql+pymysql://admin:admin@mysql:3306/mmga'
 engine = create_engine(DATABASE_URL, echo=True)
 
 
