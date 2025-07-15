@@ -12,7 +12,7 @@ services:
       - .env
     command: python src/app.py
     depends_on:
-      - mysql
+      - postgres
 
   dagster-webserver:
     build:
@@ -30,6 +30,7 @@ services:
     command: dagster-webserver -h 0.0.0.0 -p 3000
     depends_on:
       - dagster-daemon
+      - postgres
 
   dagster-daemon:
     build:
@@ -43,17 +44,18 @@ services:
       - ./dagster/dagster_project:/app/dagster_project
       - ./src:/app/src
     command: dagster-daemon run
+    depends_on:
+      - postgres
 
-  mysql:
-    image: mysql:8.0
-    container_name: mysql
+  postgres:
+    image: postgres:15
+    container_name: postgres
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mmga
-      MYSQL_USER: admin
-      MYSQL_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: mmga
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - ./data/mysql:/var/lib/mysql
+      - ./data/postgres:/var/lib/postgresql/data

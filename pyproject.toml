@@ -25,6 +25,9 @@ langchain = "^0.3.26"
 langchain-openai = "^0.3.27"
 langchain-community = "^0.3.27"
 pymysql = "^1.1.1"
+dagster-mysql = "^0.27.2"
+psycopg2-binary = "^2.9.10"
+dagster-postgres = "^0.27.2"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

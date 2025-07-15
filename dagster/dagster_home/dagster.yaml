@@ -1,5 +1,3 @@
-instance_class: dagster._core.instance.DagsterInstance
-
 local_artifact_storage:
   module: dagster._core.storage.root
   class: LocalArtifactStorage
@@ -7,37 +5,31 @@ local_artifact_storage:
     base_dir: /app/dagster_home/storage
 
 run_storage:
-  module: dagster._core.storage.runs
-  class: MySqlRunStorage
+  module: dagster_postgres.run_storage
+  class: PostgresRunStorage
   config:
-    mysql_db:
-      username: dagster
-      password: dagster
-      hostname: mysql
-      db_name: dagster
-      port: 3306
-      driver: pymysql
+    postgres_db:
+      username: admin
+      password: admin
+      hostname: postgres
+      db_name: mmga
 
 event_log_storage:
-  module: dagster._core.storage.event_log
-  class: MySqlEventLogStorage
+  module: dagster_postgres.event_log
+  class: PostgresEventLogStorage
   config:
-    mysql_db:
-      username: dagster
-      password: dagster
-      hostname: mysql
-      db_name: dagster
-      port: 3306
-      driver: pymysql
+    postgres_db:
+      username: admin
+      password: admin
+      hostname: postgres
+      db_name: mmga
 
 schedule_storage:
-  module: dagster._core.storage.schedules
-  class: MySqlScheduleStorage
+  module: dagster_postgres.schedule_storage
+  class: PostgresScheduleStorage
   config:
-    mysql_db:
-      username: dagster
-      password: dagster
-      hostname: mysql
-      db_name: dagster
-      port: 3306
-      driver: pymysql
+    postgres_db:
+      username: admin
+      password: admin
+      hostname: postgres
+      db_name: mmga

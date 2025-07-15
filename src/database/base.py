@@ -3,7 +3,7 @@ from contextlib import contextmanager
 
 from sqlmodel import Session, SQLModel, create_engine
 
-DATABASE_URL = 'mysql+pymysql://admin:admin@mysql:3306/mmga'
+DATABASE_URL = 'postgresql+psycopg2://admin:admin@postgres:5432/mmga'
 engine = create_engine(DATABASE_URL, echo=True)
 
 
