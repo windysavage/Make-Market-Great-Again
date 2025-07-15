@@ -22,11 +22,7 @@ services:
     environment:
       DAGSTER_HOME: /app/dagster_home
     volumes:
-<<<<<<< HEAD
-      - ./data:/app/data
-=======
       - ./dagster/dagster_home:/app/dagster_home
->>>>>>> 5185f0592bd434eae520fb7c2050a85b6f48893a
       - ./dagster/dagster_project:/app/dagster_project
       - ./src:/app/src
     ports:
@@ -43,11 +39,7 @@ services:
     environment:
       DAGSTER_HOME: /app/dagster_home
     volumes:
-<<<<<<< HEAD
-      - ./data:/app/data
-=======
       - ./dagster/dagster_home:/app/dagster_home
->>>>>>> 5185f0592bd434eae520fb7c2050a85b6f48893a
       - ./dagster/dagster_project:/app/dagster_project
       - ./src:/app/src
     command: dagster-daemon run
