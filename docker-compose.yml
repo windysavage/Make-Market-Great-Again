@@ -11,6 +11,8 @@ services:
     env_file:
       - .env
     command: python src/app.py
+    depends_on:
+      - mysql
 
   dagster-webserver:
     build:
@@ -20,7 +22,11 @@ services:
     environment:
       DAGSTER_HOME: /app/dagster_home
     volumes:
+<<<<<<< HEAD
       - ./data:/app/data
+=======
+      - ./dagster/dagster_home:/app/dagster_home
+>>>>>>> 5185f0592bd434eae520fb7c2050a85b6f48893a
       - ./dagster/dagster_project:/app/dagster_project
       - ./src:/app/src
     ports:
@@ -37,7 +43,25 @@ services:
     environment:
       DAGSTER_HOME: /app/dagster_home
     volumes:
+<<<<<<< HEAD
       - ./data:/app/data
+=======
+      - ./dagster/dagster_home:/app/dagster_home
+>>>>>>> 5185f0592bd434eae520fb7c2050a85b6f48893a
       - ./dagster/dagster_project:/app/dagster_project
       - ./src:/app/src
     command: dagster-daemon run
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mmga
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql

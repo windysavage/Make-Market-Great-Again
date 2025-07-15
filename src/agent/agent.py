@@ -57,6 +57,11 @@ class Agent:
     @llm_debug(enabled=True)
     def work(self) -> None:
         posts = self.crawl()
+
+        if not posts:
+            logger.info('There is no new post to be analyzed.')
+            return
+
         prompt = self.generate_prompt(posts)
         result = self.model.invoke(input=prompt)
 
@@ -72,5 +77,5 @@ class Agent:
 
 
 if __name__ == '__main__':
-    agent = Agent(target_username='realDonaldTrump', n_hours=5)
+    agent = Agent(target_username='realDonaldTrump', n_hours=10)
     agent.work()

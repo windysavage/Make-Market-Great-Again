@@ -1,8 +1,0 @@
-storage:
-  sqlite:
-    base_dir: /app/dagster_home/history
-
-schedule:
-  storage:
-    filesystem:
-      base_dir: /app/dagster_home/schedules
