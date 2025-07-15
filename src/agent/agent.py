@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 class Agent:
     target_username: str = attr.ib()
 
-    model_name: str = attr.ib(default='gpt-3.5-turbo')
+    model_name: str = attr.ib(default='gpt-4o')
     model_provider: str = attr.ib(default='openai')
 
     def __attrs_post_init__(self) -> None:
@@ -67,6 +67,10 @@ class Agent:
 
 
 if __name__ == '__main__':
+    # from datetime import datetime, timedelta
+
+    # from src.crawler import pull_user_post
+
     # posts = pull_user_post(
     #     username='realDonaldTrump',
     #     created_after=datetime.now() - timedelta(hours=10),
