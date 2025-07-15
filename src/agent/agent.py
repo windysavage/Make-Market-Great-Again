@@ -1,6 +1,5 @@
 import inspect
 import logging
-from datetime import datetime, timedelta
 
 import attr
 from langchain.chat_models import init_chat_model
@@ -9,7 +8,7 @@ from langchain_core.tools import BaseTool
 import src.agent.tools as tools_module
 from src.agent.prompt import post_analysis_prompt
 from src.agent.utils import llm_debug
-from src.crawler import Post, pull_user_post
+from src.crawler import Post
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +16,6 @@ logger = logging.getLogger(__name__)
 @attr.s()
 class Agent:
     target_username: str = attr.ib()
-    n_hours: int = attr.ib()
 
     model_name: str = attr.ib(default='gpt-3.5-turbo')
     model_provider: str = attr.ib(default='openai')
@@ -35,12 +33,6 @@ class Agent:
             if isinstance(obj, BaseTool)
         }
 
-    def crawl(self) -> list[Post]:
-        return pull_user_post(
-            username=self.target_username,
-            created_after=datetime.now() - timedelta(hours=self.n_hours),
-        )
-
     def generate_prompt(self, posts: list[Post]) -> str:
         post_texts = '\n\n'.join([f'- {post.content}' for post in posts])
         tool_descriptions = '\n'.join(
@@ -55,9 +47,7 @@ class Agent:
         )
 
     @llm_debug(enabled=True)
-    def work(self) -> None:
-        posts = self.crawl()
-
+    def work(self, posts: list[Post]) -> None:
         if not posts:
             logger.info('There is no new post to be analyzed.')
             return
@@ -77,5 +67,17 @@ class Agent:
 
 
 if __name__ == '__main__':
-    agent = Agent(target_username='realDonaldTrump', n_hours=10)
-    agent.work()
+    # posts = pull_user_post(
+    #     username='realDonaldTrump',
+    #     created_after=datetime.now() - timedelta(hours=10),
+    # )
+
+    posts = [
+        Post(
+            content='我將取消所有電動車與AI產業的優惠，並且提高各國關稅',
+            created_at='2025-01-01',
+        )
+    ]
+
+    agent = Agent(target_username='realDonaldTrump')
+    agent.work(posts=posts)
