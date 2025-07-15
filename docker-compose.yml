@@ -20,10 +20,9 @@ services:
     environment:
       DAGSTER_HOME: /app/dagster_home
     volumes:
-      - ./data/dagster_home:/app/dagster_home
+      - ./data:/app/data
       - ./dagster/dagster_project:/app/dagster_project
       - ./src:/app/src
-      - ./data/subscribers.db:/app/data/subscribers.db
     ports:
       - "3000:3000"
     command: dagster-webserver -h 0.0.0.0 -p 3000
@@ -38,8 +37,7 @@ services:
     environment:
       DAGSTER_HOME: /app/dagster_home
     volumes:
-      - ./data/dagster_home:/app/dagster_home
+      - ./data:/app/data
       - ./dagster/dagster_project:/app/dagster_project
       - ./src:/app/src
-      - ./data/subscribers.db:/app/data/subscribers.db
     command: dagster-daemon run
