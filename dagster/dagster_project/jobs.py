@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import UTC, datetime, timedelta
 
 from dagster import OpExecutionContext, job, op
 from src.agent.agent import Agent
@@ -34,7 +34,7 @@ def send_welcome_email_op(context: OpExecutionContext) -> None:
 def watch_trump_post_op() -> None:
     posts = pull_user_post(
         username='realDonaldTrump',
-        created_after=datetime.now() - timedelta(hours=10),
+        created_after=datetime.now(UTC) - timedelta(hours=1),
     )
     agent = Agent(target_username='realDonaldTrump')
     agent.work(posts=posts)
