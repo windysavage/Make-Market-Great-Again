@@ -7,7 +7,7 @@ services:
     volumes:
       - ./:/app
     ports:
-      - "8888:8888"
+      - "8899:8899"
     env_file:
       - .env
     command: python src/app.py
